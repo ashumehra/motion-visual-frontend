@@ -8,30 +8,31 @@ import { DataService } from '../data.service';
 })
 export class GraphComponent implements OnInit {
 
-	chart = [];
-	height:any;
-	coefficient:any;
-	bounces:any;
+	chart = [];   // for printing canvas
+	height:any;   // storing height
+	coefficient:any;  // storing coefficient
+	bounces:any;      // stroing bounces
 	constructor (private _data: DataService) {}
 
 	ngOnInit(): void {
 		//
 	}
 
-  	onSubmit() {
-    // console.log('submit');
-    // alert(this.coefficient);
-    	if(this.height && this.coefficient){
-            this._data.getPoints(this.height,this.coefficient)
+  	onSubmit() {  // On Clicking Submit this function is called
+
+    	if(this.height && this.coefficient){            // check if height and coefficient exist
+            this._data.getPoints(this.height,this.coefficient) // call API using data service
             .subscribe(res => {
-				console.log(res);
-				this.bounces = res['bounces'];
+
+				this.bounces = res['bounces'];          // get bounce and set it to bounces
               this.chart = new Chart('canvas', {
                 type: 'line',
                 data: {
-                  labels: res['x'],
+                  labels: res['x'],         // set x coordinates
                   datasets: [{
-                    data: res['y'],
+                    data: res['y'],         // set y coordinates
+                    borderColor: "#8e5ea2",
+                    backgroundColor: "rgba(170,120,200,0.8)",
                   }]
                 },
                 options: {
@@ -42,13 +43,17 @@ export class GraphComponent implements OnInit {
                     xAxes: [{
 						scaleLabel: {
 							display: true,
-							labelString: 'Time',
+              labelString: 'Time',
+              fontColor: '#000',
+              fontSize: '30',
 						}
                     }],
                     yAxes: [{
 						scaleLabel: {
 							display: true,
-							labelString: 'Height',
+              labelString: 'Height',
+              fontColor: '#000',
+              fontSize: '30',
 						}
                     }],
                   }
